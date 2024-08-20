@@ -11,7 +11,7 @@ app.listen(port, () => {
 
 
 const uri = "mongodb+srv://simoncrabb09:Home8199$@bankcluster.mzvnp.mongodb.net/?retryWrites=true&w=majority&appName=BankCluster";
-
+/*
 const { MongoClient } = require("mongodb");
 const client = new MongoClient(uri);
 
@@ -32,14 +32,20 @@ async function connect() {
   }catch(err) {console.log(err)};
   return;
 }
+*/
+
+function connect() {
+  console.log("yup");
+
+}
 
 function loginAttempt(username, password) {
   console.log(`Login attempt: ${username};${password}`);
 }
 
-app.get('/', async (req,res)=>{
+app.get('/', (req,res)=>{
 
-  const connection = await connect();
+  const connection = connect();
   res.send(connection);
 })
 
