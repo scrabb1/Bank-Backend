@@ -28,7 +28,6 @@ async function connect() {
     const collection = await database.collection(collectionName);
     
     const result = await collection.find({"Balance":100}).toArray();
-    client.close();
     return result;
   }catch(err) {console.log(err)};
   return;
@@ -45,7 +44,6 @@ async function accountLookup(username, password) {
     const collection = await database.collection(collectionName);
     
     const userQuery = await collection.find({"Username":username})//.toArray();
-    client.close();
     return result;
   }catch(err) {console.log(err)};
   return;
