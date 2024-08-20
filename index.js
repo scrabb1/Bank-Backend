@@ -46,8 +46,9 @@ app.get('/test', async (req,res)=>{
 
 app.post('/account-onboarding', async (req, res) => {
 
-  loginAttempt(req.query.username, req.query.password)
+  loginAttempt(req.body.username, req.body.password)
 
-  res.send({'success': true})
+  res.write(JSON.stringify({'success': true}))
+  res.end();
 
 })
