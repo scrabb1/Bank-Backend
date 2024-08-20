@@ -44,7 +44,10 @@ app.get('/test', async (req,res)=>{
   res.send(connection);
 })
 
-//app.post('/account-onboarding', async (req, res) => {
+app.post('/account-onboarding', async (req, res) => {
 
+  loginAttempt(req.query.username, req.query.password)
 
-//})
+  res.send({'success': true})
+
+})
