@@ -33,7 +33,17 @@ async function connect() {
   return;
 }
 
+function loginAttempt(username, password) {
+  console.log(`Login attempt: ${username};${password}`);
+}
+
 app.get('/', async (req,res)=>{
+
   const connection = await connect();
   res.send(connection);
 })
+
+//app.post('/account-onboarding', async (req, res) => {
+
+
+//})
