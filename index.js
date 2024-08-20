@@ -2,7 +2,7 @@
 const axios = require('axios');
 const express = require('express');
 const app = express();
-const port = 9000;
+const port = 3000;
 const host = 'http://127.0.0.1:' + port;
 
 app.listen(port, () => {
@@ -28,6 +28,24 @@ async function connect() {
     const collection = await database.collection(collectionName);
     
     const result = await collection.find({"Balance":100}).toArray();
+    client.close();
+    return result;
+  }catch(err) {console.log(err)};
+  return;
+}
+
+async function accountLookup(username, password) {
+  try {
+    const MongoConnection = await client.connect();
+
+    const dbName = "Bank";
+    const collectionName = "Accounts";
+  
+    const database = await client.db(dbName);
+    const collection = await database.collection(collectionName);
+    
+    const userQuery = await collection.find({"Username":username})//.toArray();
+    client.close();
     return result;
   }catch(err) {console.log(err)};
   return;
@@ -41,14 +59,20 @@ function loginAttempt(username, password) {
 app.get('/test', async (req,res)=>{
 
   const connection = await connect();
-  res.send(connection);
-})
-
-app.post('/account-onboarding', async (req, res) => {
-
-  loginAttempt(req.body.username, req.body.password)
-
-  res.write(JSON.stringify({'success': true}))
-  res.end();
+  res.status(200).json(connection);
 
 })
+
+
+app.post('/account-query', async (req,res)=>{
+
+  app.use(express.json())
+
+  const data = req.body
+
+  if (data.username && data.password) {
+    res.status(201).json({status:"success"})
+  }
+  
+})
+
