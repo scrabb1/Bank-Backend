@@ -70,7 +70,8 @@ app.post('/account-query', async (req,res)=>{
 
   if (data.username && data.password) {
     res.status(201).json({status:"success"})
+  } else {
+    res.status(404).send("Couldn't find data");
   }
   
 })
-
