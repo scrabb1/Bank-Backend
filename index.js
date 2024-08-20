@@ -2,42 +2,38 @@
 const axios = require('axios');
 const express = require('express');
 const app = express();
-const requestIp = require('request-ip');
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const port = process.env.PORT || 3000
+const port = 9000;
+const host = 'http://127.0.0.1:' + port;
+
+app.listen(port, () => {
+  console.log(`Started the server on ${port}`);
+})
+
 
 const uri = "mongodb+srv://simoncrabb09:Home8199$@bankcluster.mzvnp.mongodb.net/?retryWrites=true&w=majority&appName=BankCluster";
 
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
+const { MongoClient } = require("mongodb");
+const client = new MongoClient(uri);
 
+async function connect() {
 
-async function run() {
+  
   try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
+    const conn = await client.connect();
+
+    const dbName = "Bank";
+    const collectionName = "Accounts";
+  
+    const database = await client.db(dbName);
+    const collection = await database.collection(collectionName);
+    
+    const result = await collection.find({"Balance":100}).toArray();
+    return result;
+  }catch(err) {console.log(err)};
+  return;
 }
 
-run().catch(console.dir);
-
-/*
-app.post("/account-onboarding", (req, res) => {
-
+app.get('/', async (req,res)=>{
+  const connection = await connect();
+  res.send(connection);
 })
-
-app.listen(port, () => {
-    console.log(`Started the server on ${port}`)
-})
-*/
