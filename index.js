@@ -38,7 +38,7 @@ function loginAttempt(username, password) {
   console.log(`Login attempt: ${username};${password}`);
 }
 
-app.get('/test', await (req,res)=>{
+app.get('/test', async (req,res)=>{
 
   const connection = await connect();
   res.send(connection);
